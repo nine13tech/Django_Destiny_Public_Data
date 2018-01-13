@@ -16,3 +16,6 @@ Add to settings.py:
 and  
 `SOCIAL_AUTH_BUNGIE_API_KEY = '<your api key>'  
 SOCIAL_AUTH_BUNGIE_ORIGIN = '<your origin key>'`  
+
+Add to the project's urls.py:  
+`url('', include('Destiny_Public_Data.urls', namespace='Destiny_Public_Data')),`
