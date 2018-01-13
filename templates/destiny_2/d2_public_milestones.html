@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}Destiny 2 Public Milestones{% endblock %}
+
+{% block content %}
+    {% for each in data.values %}
+{#        EACH: {{ each.quest_hash }}<br>#}
+        <span class="detail-header">
+            {% if each.icon != 'EMPTY' and each.icon != None and each.icon != 'None' %}
+                <img src="https://bungie.net{{ each.icon }}" width="12px" height="12px">
+            {% endif %}
+            {{ each.name }}</span><br>
+        {% if each.description %}
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;{{ each.description }}</span><br>
+        {% endif %}
+        {% if each.milestone_type %}
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;{{ each.milestone_type }}
+                {% if each.time_left %}
+                    // Countdown: {{ each.time_left }}
+                {% endif %}</span>
+        {% endif %}
+        {% if each.quest.activity.activityLightLevel and each.quest.activity.activityLightLevel > 100 and each.milestone_type %}
+            <span> // {{ each.quest.activity.activityLightLevel }} Light Required</span><br>
+        {% else %}
+            <br>
+        {% endif %}
+        {% if each.has_variant is True %}
+            {% for this_activity in each.variants.values %}
+
+                {% if this_activity.modifier_type == 'Modifier' %}
+{#                    EACH VARIANT: {{ this_activity }}<br>#}
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;SKULL:&nbsp;
+                        {% if this_activity.modifier_icon != 'EMPTY' %}
+                            <img src="https://bungie.net{{ this_activity.modifier_icon }}" width="12px" height="12px">
+                        {% endif %}
+                        {{ this_activity.modifier_name }}<br>
+    {#                    {{ this_activity.activity.displayProperties }}#}
+                    </span><br>
+                    {% if this_activity.modifier_desc %}
+                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            {{ this_activity.modifier_desc }}</span><br>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% for this_activity in each.variants.values %}
+{#                THIS QUEST: {{ this_activity.variant_type }}<br>#}
+                {% if this_activity.variant_type == 'Variant' %}
+                <span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    {% if this_activity.variant_icon != 'EMPTY' %}
+                        <img src="https://bungie.net{{ this_activity.variant_icon }}" width="12px" height="12px">
+                    {% endif %}
+                    {{ this_activity.variant_name }}<br>
+                </span><br>
+                    {% if this_activity.variant_desc %}
+                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ this_activity.variant_desc }}</span><br>
+                    {% endif %}
+                {% endif %}
+                {% for this_challenge in this_activity.challenges.values %}
+{#                    THIS CHALLENGE: {{ this_challenge }}<br>#}
+                    {% if this_challenge.challenge_type == 'Challenge' %}
+{#                        THIS Challenge: {{ this_challenge }}<br>#}
+                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{% if this_challenge.challenge_icon != 'EMPTY' %}
+                                <img src="https://bungie.net{{ this_challenge.challenge_icon }}" width="12px"
+                                     height="12px">
+                            {% endif %}
+                            {{ this_challenge.challenge_name }}<br>
+                </span><br>
+                        {% if this_challenge.challenge_desc %}
+                            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ this_challenge.challenge_desc }}</span>
+                            <br>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+        <br><br>
+    {% endfor %}
+{#    <pre>{{ data }}</pre>#}
+{% endblock %}

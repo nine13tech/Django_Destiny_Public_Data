@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Destiny 1 Quest Steps{% endblock %}
+
+{% block content %}
+    {% for quest, value in data.items %}
+        <span class="detail-header">{{ value.name }}</span><br>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;{{ value.description }}</span><br>
+        <ol>
+            {% for step_key, step_value in value.steps.items %}
+                <li>{{ step_value.name }}
+                <ul>
+                    <li>{{ step_value.description }}</li>
+                </ul>
+                </li>
+            {% endfor %}
+        </ol>
+    {% endfor %}
+{% endblock %}
